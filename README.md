@@ -1,6 +1,11 @@
 # binspector
 A linux command line utility to view information about PE and ELF binaries.
 
+## Usage:
+`make`
+
+`./binspector binary.bin -s -S -P <section name> -a`
+
 ## libbfd
 `sudo apt install binutils-dev`
 
