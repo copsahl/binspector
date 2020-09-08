@@ -7,10 +7,10 @@ A linux command line utility to view information about PE and ELF binaries.
 ## Preview of Features
 
 ### List Sections (Displays name and size)
-![alt text](https://github.com/copsahl/binspector/tree/master/pics/list_sections.png "Example of listing sections.")
+![list sections](pics/list_sections "list sections")
 ### Display Section Content
-![alt text](https://github.com/copsahl/binspector/tree/master/pics/print_sections.png "Example of printing section content.")
+![print section](pics/print_sections.png "print section content")
 ### List Architecture
-![alt text](https://github.com/copsahl/binspector/tree/master/pics/list_arch.png "Example of listing arch.")
+![list arch](pics/list_arch.png "List arch")
 ### List symbols (Labels functions)
-![alt text](https://github.com/copsahl/binspector/tree/master/pics/list_symbols.png "Example of listing symbols.")
+![list symbols](pics/list_symbols.png "List symbols")
