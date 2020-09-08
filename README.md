@@ -7,7 +7,7 @@ A linux command line utility to view information about PE and ELF binaries.
 ## Preview of Features
 
 ### List Sections (Displays name and size)
-![list sections](pics/list_sections "list sections")
+![list sections](pics/list_sections.png "list sections")
 ### Display Section Content
 ![print section](pics/print_sections.png "print section content")
 ### List Architecture
