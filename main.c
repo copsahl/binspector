@@ -4,7 +4,6 @@
 #include <string.h>
 #include <bfd.h>
 
-#include "argparse/argparse.h"
 
 void print_section_names(bfd *file);
 void print_section_content(bfd *file, char *name);
@@ -15,10 +14,8 @@ int main(int argc, char **argv){
 
 	bfd_init();
 	bfd *binary;
-	unsigned int select;
-	struct Arguments_t *arguments;
 	const bfd_arch_info_type *archInfo;
-
+	int i;
 
 	if(argc <= 2){
 		printf("Usage: %s <binary file> -s -S -P <section> -a\n", argv[0]);
@@ -29,40 +26,42 @@ int main(int argc, char **argv){
 		printf("Failed to open binary!\n");
 		exit(-1);
 	}
-	arguments = buildArgStruct();
 	
 	if(!bfd_check_format(binary, bfd_object)){
 		printf("Failed to open binary file!\n");
 		exit(-1);
 	}
 
-	arguments = buildArgStruct();
-	setCliFlags(argc, argv, arguments);
 
 	printf("[loaded binary] -> %s\n", argv[1]);
 
-	if(arguments->list_sections == 1){
-		printf("[Section List]\n");
-		print_section_names(binary);
-		printf("\n");
+	// Parse Arguments
+	for(i = 2; i < argc; i++){
+		if(strncmp(argv[i], "-s", 2) == 0){
+			printf("[listing sections]\n");
+			print_section_names(binary);
+			printf("\n");
+		}
+		if(strncmp(argv[i], "-P", 2) == 0){
+			int length = strlen(argv[i + 1]);
+			argv[i+1][length] = '\0';	
+			printf("[%s content]\n", argv[i+1]);
+			print_section_content(binary, argv[i+1]);
+			printf("\n");
+		}
+		if(strncmp(argv[i], "-a", 2) == 0){
+			printf("[architecture info]\n");
+			archInfo = bfd_get_arch_info(binary);
+			printf("Architecture:\t%s\n", archInfo->printable_name);
+			printf("\n");
+		}
+		if(strncmp(argv[i], "-S", 2) == 0){
+			printf("[symbol list]\n");
+			print_symbol_table(binary);
+			printf("\n");
+		}
 	}
-	if(arguments->print_section != NULL){
-		printf("[%s Content]\n", arguments->print_section);
-		print_section_content(binary, arguments->print_section);
-		printf("\n");
-	}
-	if(arguments->list_arch == 1){
-		printf("[Architecture Info]\n");
-		archInfo = bfd_get_arch_info(binary);
-		printf("Architecture:\t%s\n", archInfo->printable_name);
-		printf("\n");
-	}
-	if(arguments->list_symbols == 1){
-		printf("[Symbol List]\n");
-		print_symbol_table(binary);	
-		printf("\n");
-	}
-	
+
 	return 0;
 }
 
@@ -92,13 +91,13 @@ void print_section_content(bfd *file, char *name){
 	bfd_get_section_contents(file, currSec, memory, 0, currSec->size);
 
 	// Print out hex and ascii character values 
-	while(lowerBound < currSec->size){
+	while((long unsigned int)lowerBound < currSec->size){
 		for(x = lowerBound; x < upperBound; x++){
 			printf("%02x ", memory[x]);
 		}
 		printf("\t");
 		for(x = lowerBound; x < upperBound; x++){
-			if(memory[x] >= 0x0 && memory[x] <= 0x20 || memory[x] >= 0x7f){	// Exclude non-printable characters
+			if(memory[x] <= 0x20 || memory[x] >= 0x7f){	// Exclude non-printable characters
 				printf(". ");
 				continue;
 			}
@@ -151,7 +150,7 @@ void print_symbol_table(bfd *file){
 }
 
 void printBytes(char *string){
-	int x;
+	size_t x;
 	for(x = 0; x < strlen(string); x++){
 		printf("%x ", string[x]);
 	}
