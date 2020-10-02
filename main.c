@@ -15,7 +15,6 @@ int main(int argc, char **argv){
 
 	bfd_init();
 	bfd *binary;
-	unsigned int select;
 	struct Arguments_t *arguments;
 	const bfd_arch_info_type *archInfo;
 
@@ -92,13 +91,13 @@ void print_section_content(bfd *file, char *name){
 	bfd_get_section_contents(file, currSec, memory, 0, currSec->size);
 
 	// Print out hex and ascii character values 
-	while(lowerBound < currSec->size){
+	while((long unsigned int)lowerBound < currSec->size){
 		for(x = lowerBound; x < upperBound; x++){
 			printf("%02x ", memory[x]);
 		}
 		printf("\t");
 		for(x = lowerBound; x < upperBound; x++){
-			if(memory[x] >= 0x0 && memory[x] <= 0x20 || memory[x] >= 0x7f){	// Exclude non-printable characters
+			if(memory[x] <= 0x20 || memory[x] >= 0x7f){	// Exclude non-printable characters
 				printf(". ");
 				continue;
 			}
@@ -151,7 +150,7 @@ void print_symbol_table(bfd *file){
 }
 
 void printBytes(char *string){
-	int x;
+	size_t x;
 	for(x = 0; x < strlen(string); x++){
 		printf("%x ", string[x]);
 	}
