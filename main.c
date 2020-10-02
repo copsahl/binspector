@@ -63,30 +63,6 @@ int main(int argc, char **argv){
 		}
 	}
 
-
-/*
-	if(arguments->list_sections == 1){
-		printf("[Section List]\n");
-		print_section_names(binary);
-		printf("\n");
-	}
-	if(arguments->print_section != NULL){
-		printf("[%s Content]\n", arguments->print_section);
-		print_section_content(binary, arguments->print_section);
-		printf("\n");
-	}
-	if(arguments->list_arch == 1){
-		printf("[Architecture Info]\n");
-		archInfo = bfd_get_arch_info(binary);
-		printf("Architecture:\t%s\n", archInfo->printable_name);
-		printf("\n");
-	}
-	if(arguments->list_symbols == 1){
-		printf("[Symbol List]\n");
-		print_symbol_table(binary);	
-		printf("\n");
-	}
-*/	
 	return 0;
 }
 
