@@ -4,7 +4,6 @@
 #include <string.h>
 #include <bfd.h>
 
-//#include "argparse/argparse.h"
 
 void print_section_names(bfd *file);
 void print_section_content(bfd *file, char *name);
