@@ -8,7 +8,7 @@
 void print_section_names(bfd *file);
 void print_section_content(bfd *file, char *name);
 void printBytes(char *string);
-void print_symbol_table(bfd *file);
+void print_symbol_table(bfd *file, int funcsOnly);
 
 int main(int argc, char **argv){
 
@@ -57,7 +57,12 @@ int main(int argc, char **argv){
 		}
 		if(strncmp(argv[i], "-S", 2) == 0){
 			printf("[symbol list]\n");
-			print_symbol_table(binary);
+			print_symbol_table(binary, 0);
+			printf("\n");
+		}
+		if(strncmp(argv[i], "-f", 2) == 0){
+			printf("[function list]\n");
+			print_symbol_table(binary, 1);
 			printf("\n");
 		}
 	}
@@ -110,7 +115,7 @@ void print_section_content(bfd *file, char *name){
 	}
 }
 
-void print_symbol_table(bfd *file){
+void print_symbol_table(bfd *file, int funcsOnly){
 	long storage_needed;
 	asymbol **symbol_table;
 	long number_of_symbols;
@@ -139,12 +144,17 @@ void print_symbol_table(bfd *file){
 	}
 
 	for(i = 0; i < number_of_symbols; i++){
-		printf("%-30s\t", symbol_table[i]->name);
-		if(symbol_table[i]->flags & BSF_FUNCTION){
-			printf("FUNC");
+		if(!funcsOnly){
+			printf("%-30s\t", symbol_table[i]->name);
+			if(symbol_table[i]->flags & BSF_FUNCTION){
+				printf("FUNC");
+			}
+			printf("\n");
+		}else{
+			if(symbol_table[i]->flags & BSF_FUNCTION){
+				printf("%-30s\n", symbol_table[i]->name);
+			}
 		}
-
-		printf("\n");
 	}
 
 }
