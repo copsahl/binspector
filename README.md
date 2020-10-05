@@ -12,10 +12,15 @@ A linux command line utility to view information about PE and ELF binaries.
 ## Preview of Features
 
 `-s			- List Sections`
+
 `-f			- List Functions`
+
 `-S			- List Symbols`
+
 `-P <section name>	- Print Section content`
+
 `-a			- List arch info`
+
 ### List Sections (Displays name and size)
 ![list sections](pics/list_sections.png "list sections")
 ### Display Section Content
