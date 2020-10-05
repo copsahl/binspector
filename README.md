@@ -4,13 +4,18 @@ A linux command line utility to view information about PE and ELF binaries.
 ## Usage:
 `make`
 
-`./binspector binary.bin -s -S -P <section name> -a`
+`./binspector binary.bin -s -f -S -P <section name> -a`
 
 ## libbfd
 `sudo apt install binutils-dev`
 
 ## Preview of Features
 
+`-s			- List Sections`
+`-f			- List Functions`
+`-S			- List Symbols`
+`-P <section name>	- Print Section content`
+`-a			- List arch info`
 ### List Sections (Displays name and size)
 ![list sections](pics/list_sections.png "list sections")
 ### Display Section Content
