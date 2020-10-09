@@ -9,7 +9,7 @@ A linux command line utility to view information about PE and ELF binaries.
 ## libbfd
 `sudo apt install binutils-dev`
 
-## Preview of Features
+## Command Line Arguments 
 
 `-s			- List Sections`
 
