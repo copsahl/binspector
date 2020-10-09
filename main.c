@@ -2,8 +2,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+/* Forced to redefine PACKAGE and PACKAGE_VERSION to pass check */
+#define PACKAGE 1
+#define PACKAGE_VERSION 1
 #include <bfd.h>
 
+#undef PACKAGE
+#undef PACKAGE_VERSION
 
 void print_section_names(bfd *file);
 void print_section_content(bfd *file, char *name);
