@@ -7,8 +7,8 @@ A linux command line utility to view information about PE and ELF binaries.
 `./binspector binary.bin -s -f -S -P <section name> -a`
 
 ## libbfd
-`sudo apt install binutils-dev`
-
+Ubuntu: `sudo apt install binutils-dev`
+Arch: `sudo pacman -S binutils`
 ## Command Line Arguments 
 
 `-s			- List Sections`
