@@ -8,6 +8,7 @@ A linux command line utility to view information about PE and ELF binaries.
 
 ## libbfd
 Ubuntu: `sudo apt install binutils-dev`
+
 Arch: `sudo pacman -S binutils`
 ## Command Line Arguments 
 
