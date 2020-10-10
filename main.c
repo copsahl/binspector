@@ -23,25 +23,34 @@ int main(int argc, char **argv){
 	const bfd_arch_info_type *archInfo;
 	int i;
 
+	// Checking arguments
+	// Need at least 3 for real output. 
 	if(argc <= 2){
 		printf("Usage: %s <binary file> -s -S -P <section> -a\n", argv[0]);
 		exit(-1);
 	}
 
+	// Open our binary file in read mode
 	if((binary = bfd_openr(argv[1], NULL)) == NULL){
 		printf("Failed to open binary!\n");
 		exit(-1);
 	}
-	
+
+	// Checking to see if the file is a binary_object
+	// bfd_object may contain data, symbols, relocations, and debug info.	
 	if(!bfd_check_format(binary, bfd_object)){
 		printf("Failed to open binary file!\n");
 		exit(-1);
 	}
 
-
+	// Display name of current file. 
 	printf("[loaded binary] -> %s\n", argv[1]);
 
 	// Parse Arguments
+	/*  
+	    We loop through each argument and execute their specific
+	    functionality when we come across the arguments. 
+	*/
 	for(i = 2; i < argc; i++){
 		if(strncmp(argv[i], "-s", 2) == 0){
 			printf("[listing sections]\n");
@@ -73,14 +82,21 @@ int main(int argc, char **argv){
 		}
 	}
 
+	// Close the binary, be nice to the computer :) 
+	bfd_close(binary);
+
 	return 0;
 }
 
 void print_section_names(bfd *file){
 	
-	struct bfd_section *sectionParse = file->sections;
+	/* 
+	    Switched sectionParse type to asection from `struct bfd_section`
+	    because struct bfd_section is deprecated.
+	*/
+	asection *sectionParse = file->sections;
 	while(sectionParse != NULL){
-		printf("%-20s\t%ld\n", sectionParse->name, sectionParse->size);
+		printf("%-20s\t%8ld %10s\n", sectionParse->name, sectionParse->size, "BYTES");
 		sectionParse = sectionParse->next;
 	}
 }
@@ -119,6 +135,7 @@ void print_section_content(bfd *file, char *name){
 		upperBound += 10;
 		printf("\n");
 	}
+
 }
 
 void print_symbol_table(bfd *file, int funcsOnly){
